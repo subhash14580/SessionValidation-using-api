@@ -33,9 +33,11 @@ public class SessionValidation {
 	public Map<String,String>  saveSessionPO(@RequestBody  SessionPO session) {
 		System.out.println(session.toString());
 		Map<String,String> map = new HashMap<>();
-		
+		UUID uuid1 = Generators.timeBasedGenerator().generate();
+		System.out.println("UUID : "+uuid1);
 		try {
-		 sessionDAO.save(session);
+			session.setSessionId(uuid1.toString());
+		 	sessionDAO.save(session);
 		}catch(Exception e) {
 			e.printStackTrace();
 			map.put("STATUS", "FAILURE");
@@ -43,6 +45,7 @@ public class SessionValidation {
 		}
 		map.put("STATUS", "SUCCESS");
 		return map;
+	
 	}
 	
 	@RequestMapping(value ="/isValid")
